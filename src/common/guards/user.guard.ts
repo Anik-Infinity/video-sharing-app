@@ -18,8 +18,6 @@ export class UserGuard implements CanActivate {
         if (
             user.isSuperAdmin ||
             user.isAdmin ||
-            user.isLibrarian ||
-            user.isAcademic ||
             user.isStudent
         ) {
             return true;

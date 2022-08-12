@@ -62,7 +62,7 @@ export class CreateUserBaseDto {
 
     @ApiProperty({
         description: 'user gender: male: 1, female: 2, unknown: 3',
-        default: `${Gender.Unknown}`,
+        default: `${Gender.Male}`,
     })
     @IsNotEmpty()
     @IsEnum(Gender, { message: 'Must be a valid gender [1-3]' })
@@ -86,6 +86,7 @@ export class CreateUserBaseDto {
 
     @ApiPropertyOptional({
         description: 'user image url',
+        default: 'user-image-path'
     })
     @IsOptional()
     @IsString()

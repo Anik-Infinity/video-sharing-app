@@ -9,15 +9,13 @@ export class UserResponseDto {
 
   isSuperAdmin: boolean;
   isAdmin: boolean;
-  isAcademic: boolean;
-  isLibrarian: boolean;
+  isGeneralUser: boolean;
   isStudent: boolean;
   // hasLicenseAndNID: boolean;
 
   superAdminId: string;
   adminId: string;
-  academicId: string;
-  librarianId: string;
+  generalUserId: string;
   studentId: string;
 
   accessToken: string;

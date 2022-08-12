@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminEntity } from '../entities/user/admin.entity';
-import { LibrarianEntity } from '../entities/user/librarian.entity';
 import { StudentEntity } from '../entities/user/student.entity';
 import { UserEntity } from '../entities/user/user.entity';
 import { configEnvironment } from '../env-config/env-config';
@@ -23,7 +22,6 @@ import { configEnvironment } from '../env-config/env-config';
                 entities: [
                     UserEntity,
                     StudentEntity,
-                    LibrarianEntity,
                     AdminEntity,
                 ],
             }),

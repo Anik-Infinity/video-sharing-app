@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
     IsDateString,
@@ -15,7 +15,6 @@ import { RoleType } from '../../../enum/role-type.enum';
 import { BaseDto } from '../../core/base.dto';
 import { ApiQueryPaginationBaseDTO } from '../../pagination/api-query-pagination-base.dto';
 import { AdminDto } from './admin.dto';
-import { LibrarianDto } from './librarian.dto';
 import { StudentDto } from './student.dto';
 
 export class UserDto extends BaseDto {
@@ -61,13 +60,10 @@ export class UserDto extends BaseDto {
     roleType: RoleType;
 
     @Type(() => StudentDto)
-    student: StudentDto;
-
-    @Type(() => LibrarianDto)
-    librarian: LibrarianDto;
+    student: StudentDto;;
 
     @Type(() => AdminDto)
-    admin: LibrarianDto;
+    admin: AdminDto;
 
     @IsNotEmpty()
     @IsString()

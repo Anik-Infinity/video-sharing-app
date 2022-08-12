@@ -1,8 +1,9 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, Index, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { Gender } from '../../../common/enum/gender.enum';
 import { RoleType } from '../../../common/enum/role-type.enum';
 import { CustomBaseEntity } from '../core/custom-base.entity';
+import { VideoEntity } from '../video/video.entity';
 import { AdminEntity } from './admin.entity';
 import { StudentEntity } from './student.entity';
 
@@ -58,6 +59,9 @@ export class UserEntity extends CustomBaseEntity {
     @OneToOne(() => AdminEntity, (admin) => admin.user, { cascade: true })
     @JoinColumn({ name: 'admin_id' })
     admin: AdminEntity;
+
+    @OneToMany(() => VideoEntity, (videoEntity) => videoEntity.user)
+    video: VideoEntity[]
 
     @Column({
         type: 'enum',

@@ -7,6 +7,7 @@ import { configTypeorm } from '../common/typeorm-config/typeorm.config';
 import { configRedis } from '../common/redis-config/redis.config';
 import { ResponseService } from '../common/services/response.service';
 import { PublicMiddleware } from '../common/middlewares/public.middleware';
+import { VideoModule } from './video/video.module';
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import { PublicMiddleware } from '../common/middlewares/public.middleware';
         configRedis(),
         UserModule,
         AuthModule,
+        VideoModule
     ],
     controllers: [],
     providers: [ResponseService],

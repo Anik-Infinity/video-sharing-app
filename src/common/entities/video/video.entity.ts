@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { CustomBaseEntity } from "../core/custom-base.entity";
 import { UserEntity } from "../user/user.entity";
+import { UserVideoReactionEntity } from "./user-video-reaction.entity";
 
 @Entity({name: 'videos', schema: 'public'})
 export class VideoEntity extends CustomBaseEntity {
@@ -26,4 +27,7 @@ export class VideoEntity extends CustomBaseEntity {
     @ManyToOne(() => UserEntity, (userEntity) => userEntity.video)
     @JoinColumn({name: "user_id"})
     user: UserEntity;
+
+    @OneToMany(() => UserVideoReactionEntity, (userVideoReactio) => userVideoReactio.video)
+    userVideoReaction: UserVideoReactionEntity[]
 }

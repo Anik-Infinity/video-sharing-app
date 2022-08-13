@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserVideoReactionEntity } from '../../common/entities/video/user-video-reaction.entity';
 import { UserEntity } from '../../common/entities/user/user.entity';
 import { VideoEntity } from '../../common/entities/video/video.entity';
 import { ConversionService } from '../../common/services/conversion.service';
@@ -11,7 +12,7 @@ import { VideoController } from './controller/video.controller';
 import { VideoService } from './service/video.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([VideoEntity, UserEntity])],
+    imports: [TypeOrmModule.forFeature([VideoEntity, UserEntity, UserVideoReactionEntity])],
     controllers: [VideoController],
     providers: [
         VideoService,

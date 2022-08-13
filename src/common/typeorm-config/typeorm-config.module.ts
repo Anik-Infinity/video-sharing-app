@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminEntity } from '../entities/user/admin.entity';
 import { StudentEntity } from '../entities/user/student.entity';
 import { UserEntity } from '../entities/user/user.entity';
+import { UserVideoReactionEntity } from '../entities/video/user-video-reaction.entity';
 import { VideoEntity } from '../entities/video/video.entity';
 import { configEnvironment } from '../env-config/env-config';
 @Module({
@@ -24,7 +25,8 @@ import { configEnvironment } from '../env-config/env-config';
                     UserEntity,
                     StudentEntity,
                     AdminEntity,
-                    VideoEntity
+                    VideoEntity,
+                    UserVideoReactionEntity
                 ],
             }),
             inject: [ConfigService],

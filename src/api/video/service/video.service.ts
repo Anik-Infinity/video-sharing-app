@@ -83,18 +83,25 @@ export class VideoService {
         const reactionData = await this.userVideoReactionRepository.createQueryBuilder('reaction')
             .leftJoinAndSelect('reaction.user', 'user')
             .leftJoinAndSelect('reaction.video', 'video')
-            .where('user.id = :id', {id: userVideoReactionDto.userId})
-            .andWhere('video.id = :id',{id: userVideoReactionDto.videoId})
+            .where('user.id = :uId', {uId: userVideoReactionDto.userId})
+            .andWhere('video.id = :vId',{vId: userVideoReactionDto.videoId})
             .getOne();
+            
         if(!reactionData) {
             const userVideoReaction = this.userVideoReactionRepository.create(userVideoReactionDto);
             userVideoReaction.user = await this.findUserById(userVideoReactionDto.userId);
             userVideoReaction.video = await this.findVideoById(userVideoReactionDto.videoId);
+
+            if(userVideoReaction.reaction == 1) userVideoReaction.video.likeCount += 1;
+            else if(userVideoReaction.reaction == 2) userVideoReaction.video.disLikeCount += 1; 
+            await this.videoRepository.save(userVideoReaction.video)
+
             const save = await this.userVideoReactionRepository.save(userVideoReaction);
             return this.conversionService.toDto<UserVideoReactionEntity, UserVideoReactionDto>(save);
         }
         reactionData.reaction = userVideoReactionDto.reaction;
-        return this.conversionService.toDto<UserVideoReactionEntity, UserVideoReactionDto>(reactionData);
+        const updateData = await this.userVideoReactionRepository.save(reactionData);
+        return this.conversionService.toDto<UserVideoReactionEntity, UserVideoReactionDto>(updateData);
     }
 
     findUserById = async(userId: string): Promise<UserEntity> => {

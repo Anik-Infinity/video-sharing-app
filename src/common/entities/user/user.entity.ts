@@ -64,7 +64,7 @@ export class UserEntity extends CustomBaseEntity {
     @OneToMany(() => VideoEntity, (videoEntity) => videoEntity.user)
     video: VideoEntity[]
 
-    @OneToMany(() => UserVideoReactionEntity, (userVideoReactio) => userVideoReactio.user)
+    @OneToMany(() => UserVideoReactionEntity, (userVideoReaction) => userVideoReaction.user)
     userVideoReaction: UserVideoReactionEntity[]
 
     @Column({

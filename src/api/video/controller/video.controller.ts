@@ -91,13 +91,18 @@ export class VideoController {
         description: 'video reaction',
     })
     @HttpCode(HttpStatus.OK)
-    @Get('reaction/:userId/:videoId')
+    @Post('reaction')
     reactionOnVideo(@Body(
         new DtoValidationPipe({
             whitelist: true,
             forbidNonWhitelisted: true,
         })) userVideoReactionDto: UserVideoReactionDto) {
-            this.videoService.reactionOnVideo(userVideoReactionDto);
+            const reactionData = this.videoService.reactionOnVideo(userVideoReactionDto);
+            return this.responseService.toDtoResponse(
+                HttpStatus.CREATED,
+                'reaction on video done',
+                reactionData,
+            )
     }
 
 

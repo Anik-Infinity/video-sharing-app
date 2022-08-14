@@ -79,12 +79,30 @@ export class VideoService {
         return this.conversionService.toDto<VideoEntity, VideoDto>(updatedVideo);
     }
 
-    reactionOnVideo = async(userVideoReactionDto: UserVideoReactionDto) => {
-
+    reactionOnVideo = async(userVideoReactionDto: UserVideoReactionDto): Promise<UserVideoReactionDto> => {
+        const reactionData = await this.userVideoReactionRepository.createQueryBuilder('reaction')
+            .leftJoinAndSelect('reaction.user', 'user')
+            .leftJoinAndSelect('reaction.video', 'video')
+            .where('user.id = :id', {id: userVideoReactionDto.userId})
+            .andWhere('video.id = :id',{id: userVideoReactionDto.videoId})
+            .getOne();
+        if(!reactionData) {
+            const userVideoReaction = this.userVideoReactionRepository.create(userVideoReactionDto);
+            userVideoReaction.user = await this.findUserById(userVideoReactionDto.userId);
+            userVideoReaction.video = await this.findVideoById(userVideoReactionDto.videoId);
+            const save = await this.userVideoReactionRepository.save(userVideoReaction);
+            return this.conversionService.toDto<UserVideoReactionEntity, UserVideoReactionDto>(save);
+        }
+        reactionData.reaction = userVideoReactionDto.reaction;
+        return this.conversionService.toDto<UserVideoReactionEntity, UserVideoReactionDto>(reactionData);
     }
 
     findUserById = async(userId: string): Promise<UserEntity> => {
         return this.userRepository.findOne({id: userId});
+    }
+
+    findVideoById = async(videoId: string): Promise<VideoEntity> => {
+        return this.videoRepository.findOne({id: videoId});
     }
 
 }

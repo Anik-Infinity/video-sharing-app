@@ -14,6 +14,8 @@ import { isActive } from '../../../common/queries/is-active.query';
 import { SystemException } from '../../../common/exceptions/system.exception';
 import { UserVideoReactionDto } from '../../../common/dto/video/user-video-reaction.dto';
 import { UserVideoReactionEntity } from '../../../common/entities/video/user-video-reaction.entity';
+const getVideoId = require('get-video-id');
+const getYoutubeTitle = require('get-youtube-title');
 
 @Injectable()
 export class VideoService {
@@ -35,6 +37,10 @@ export class VideoService {
          const videoData: VideoEntity =
             this.videoRepository.create(modifiedUploadVideo);
          videoData.user = await this.findUserById(uploadVideoDto.uploadedBy);
+         const { id } = getVideoId(uploadVideoDto.videoUrl);
+         videoData.thumbnail = 'https://img.youtube.com/vi/' + id + '/0.jpg';
+         videoData.videoTitle = 'video_' + Date.now();
+
          const videoSave = await this.videoRepository.save(videoData);
          return this.conversionService.toDto<VideoEntity, VideoDto>(videoSave);
       } catch (e) {
@@ -151,8 +157,6 @@ export class VideoService {
          throw new SystemException(e);
       }
    };
-
-   
 
    findUserById = async (userId: string): Promise<UserEntity> => {
       try {

@@ -59,7 +59,6 @@ export class VideoController {
       );
    }
 
-
    @ApiOkResponse({
       status: HttpStatus.OK,
       description: 'video pagination list',

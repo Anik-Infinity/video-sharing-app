@@ -20,7 +20,7 @@ import { configEnvironment } from '../env-config/env-config';
                 password: configService.get('DATABASE_PASSWORD'),
                 database: configService.get('DATABASE_DB'),
                 synchronize: configService.get('DATABASE_SYNCRONIZE'),
-                logging: configService.get('DATABASE_LOGGING'),
+                logging: true, //configService.get('DATABASE_LOGGING'),
                 entities: [
                     UserEntity,
                     StudentEntity,

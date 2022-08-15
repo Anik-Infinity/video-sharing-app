@@ -24,6 +24,9 @@ export class VideoEntity extends CustomBaseEntity {
     @Column({ name: 'view_count', type: 'int', default: 0, nullable: true})
     viewCount: number;
 
+    @Column({ name: 'thumbnail', type: 'varchar', nullable: true})
+    thumbnail: string;
+
     @ManyToOne(() => UserEntity, (userEntity) => userEntity.video)
     @JoinColumn({name: "user_id"})
     user: UserEntity;

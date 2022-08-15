@@ -18,6 +18,8 @@ export class VideoDto extends BaseDto {
 
     viewCount: number;
 
+    thumbnail: string;
+
     @Type(() => UserDto)
     uploadedBy: UserDto;
 }

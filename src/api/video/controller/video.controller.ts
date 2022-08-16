@@ -87,6 +87,21 @@ export class VideoController {
 
    @ApiOkResponse({
       status: HttpStatus.OK,
+      description: 'video list',
+   })
+   @HttpCode(HttpStatus.OK)
+   @Get('video-list')
+   getVideoList(): Promise<ResponseDto> {
+      const videos = this.videoService.getVideoList();
+      return this.responseService.toResponse(
+         HttpStatus.OK,
+         'video list',
+         videos,
+      );
+   }
+
+   @ApiOkResponse({
+      status: HttpStatus.OK,
       description: 'video view increment',
    })
    @HttpCode(HttpStatus.OK)
@@ -108,9 +123,7 @@ export class VideoController {
    })
    @HttpCode(HttpStatus.OK)
    @Get('single-video-info/:id')
-   getSingleVideoInfo(
-      @Param('id', new UuidValidationPipe()) id: string,
-   ) {
+   getSingleVideoInfo(@Param('id', new UuidValidationPipe()) id: string) {
       const video = this.videoService.getSingleVideoInfo(id);
       return this.responseService.toDtoResponse(
          HttpStatus.CREATED,

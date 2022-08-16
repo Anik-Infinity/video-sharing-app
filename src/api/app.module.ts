@@ -8,6 +8,7 @@ import { configRedis } from '../common/redis-config/redis.config';
 import { ResponseService } from '../common/services/response.service';
 import { PublicMiddleware } from '../common/middlewares/public.middleware';
 import { VideoModule } from './video/video.module';
+import { AuthMiddleware } from '../common/middlewares/auth.middleware';
 
 @Module({
     imports: [
@@ -24,9 +25,9 @@ import { VideoModule } from './video/video.module';
 export class AppModule {
     configure(consumer: MiddlewareConsumer) {
         consumer.apply(PublicMiddleware).forRoutes('*');
-        // consumer
-        //     .apply(AuthMiddleware)
-        //     .exclude(...publicUrls)
-        //     .forRoutes('*');
+        consumer
+            .apply(AuthMiddleware)
+            .exclude(...publicUrls)
+            .forRoutes('*');
     }
 }

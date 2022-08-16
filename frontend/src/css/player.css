@@ -1,0 +1,55 @@
+
+
+.player-conatiner{
+   display: flex;
+  
+}
+
+.player { 
+   margin-left: 200px;
+   margin: 30px;
+   
+}
+.suggestion { 
+   display: flex;
+   flex-wrap: wrap;
+   margin-left: 100px;
+}
+
+.video-card-container{
+   /* height: 300px; */
+}
+
+.info-bar{
+   display: flex;
+   box-sizing: border-box;
+   width: 100%;
+   flex-wrap: nowrap;
+   padding: 10px;
+   justify-content: space-between;
+   text-align: center;
+}
+
+.react-container{
+   align-items: center;
+   user-select: none;
+}
+
+.react{
+   margin: 20px;
+   align-content: center;
+}
+.views{
+   width: 20%;
+   overflow: hidden;
+}
+
+.react:hover{
+   cursor: pointer;
+}
+
+
+.active{
+   color: green;
+   fill: green;
+}

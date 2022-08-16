@@ -1,0 +1,35 @@
+.auth-container{
+  background-color: white;
+  border: 0.8px solid black;
+  width: 60vw;
+  height: 40vh;
+  box-shadow: 3px 5px rgba(218, 218, 218, 0.233);
+  align-items: center;
+  margin: 20vh auto;
+  
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  align-items: center;
+  margin-top: 10%;
+}
+
+a:hover, button:hover{
+  cursor: pointer;
+}
+input{
+}
+
+h1{
+  margin-bottom: 20px;
+}
+
+a{
+  margin-top: 30px;
+  color: rgb(138, 138, 138);
+}

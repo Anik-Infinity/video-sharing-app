@@ -104,6 +104,23 @@ export class VideoController {
 
    @ApiOkResponse({
       status: HttpStatus.OK,
+      description: 'video',
+   })
+   @HttpCode(HttpStatus.OK)
+   @Get('single-video-info/:id')
+   getSingleVideoInfo(
+      @Param('id', new UuidValidationPipe()) id: string,
+   ) {
+      const video = this.videoService.getSingleVideoInfo(id);
+      return this.responseService.toDtoResponse(
+         HttpStatus.CREATED,
+         'vido view incremented',
+         video,
+      );
+   }
+
+   @ApiOkResponse({
+      status: HttpStatus.OK,
       description: 'video reaction',
    })
    @HttpCode(HttpStatus.OK)

@@ -14,6 +14,7 @@ import { isActive } from '../../../common/queries/is-active.query';
 import { SystemException } from '../../../common/exceptions/system.exception';
 import { UserVideoReactionDto } from '../../../common/dto/video/user-video-reaction.dto';
 import { UserVideoReactionEntity } from '../../../common/entities/video/user-video-reaction.entity';
+import { PermissionService } from '../../../common/services/permission.service';
 const getVideoId = require('get-video-id');
 const getYoutubeTitle = require('get-youtube-title');
 
@@ -28,6 +29,7 @@ export class VideoService {
       private readonly userVideoReactionRepository: Repository<UserVideoReactionEntity>,
       private readonly conversionService: ConversionService,
       private readonly requestService: RequestService,
+      private readonly permissionService: PermissionService,
    ) {}
 
    uploadVideo = async (uploadVideoDto: UploadVideoDto): Promise<VideoDto> => {
@@ -80,6 +82,23 @@ export class VideoService {
       }
    };
 
+   getSingleVideoInfo = async (videoId: string) => {
+      const user = this.permissionService.returnRequest();
+      const query = this.videoRepository
+         .createQueryBuilder('video')
+         .leftJoinAndSelect('video.user', 'user')
+         .leftJoinAndSelect('video.userVideoReaction', 'userVideoReaction')
+         .leftJoinAndSelect('video.userVideoReaction.user', 'userReaction')
+         .where('video.id = :vId', { vId: videoId })
+         .andWhere('userReaction.id = :uId', { uId: user.userId })
+         const videoInfo = await query.getOne();
+      console.log(await query.getOne());
+      return this.conversionService.toDto<VideoEntity, VideoDto>(
+         videoInfo,
+      );
+      
+   };
+   
    incrementViewCount = async (id: string): Promise<VideoDto> => {
       try {
          const videoEntity = await this.videoRepository.findOne({ id: id });
@@ -97,11 +116,12 @@ export class VideoService {
       userVideoReactionDto: UserVideoReactionDto,
    ): Promise<string> => {
       try {
+         const user = this.permissionService.returnRequest();
          const reactionData = await this.userVideoReactionRepository
             .createQueryBuilder('reaction')
             .leftJoinAndSelect('reaction.user', 'user')
             .leftJoinAndSelect('reaction.video', 'video')
-            .where('user.id = :uId', { uId: userVideoReactionDto.userId })
+            .where('user.id = :uId', { uId: user.userId })
             .andWhere('video.id = :vId', {
                vId: userVideoReactionDto.videoId,
             })
@@ -111,7 +131,7 @@ export class VideoService {
             const userVideoReaction =
                this.userVideoReactionRepository.create(userVideoReactionDto);
             userVideoReaction.user = await this.findUserById(
-               userVideoReactionDto.userId,
+               user.userId,
             );
             userVideoReaction.video = await this.findVideoById(
                userVideoReactionDto.videoId,
